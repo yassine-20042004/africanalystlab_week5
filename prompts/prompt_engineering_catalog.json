@@ -1,0 +1,187 @@
+{
+  "project": "SwiftLog Logistics Analytics & AI Transformation",
+  "track": "Generative AI Engineering (Mission GenAI05)",
+  "prompts_count": 20,
+  "scenarios": [
+    {
+      "id": "PROMPT-01",
+      "scenario": "Customer Support",
+      "objective": "Resolve customer shipment status inquiry empathetically and provide accurate ETA.",
+      "baseline_prompt": "Tell the customer where their order is.",
+      "technique": "Role Prompting + Few-Shot + Structured Output",
+      "improved_prompt": "You are SwiftLog's Senior Customer Experience Specialist. A customer (Customer ID: {customer_id}) has contacted support regarding Order #{order_id} placed on {order_date}.\n\nContext Data:\n- Order Status: {status}\n- Warehouse Dispatched: {warehouse_id} ({warehouse_location})\n- Destination City: {customer_city}\n- Current Delay: {delay_days} days\n\nInstructions:\n1. Acknowledge the customer warmly.\n2. State the exact transit status with complete transparency.\n3. If delayed, provide the operational reason and revised delivery window.\n4. Offer proactive assistance or compensation credit if delay >= 3 days.\n5. Output in valid JSON with fields: 'greeting', 'status_summary', 'revised_eta', 'compensation_eligible', 'customer_message'.",
+      "evaluation": "Reduces customer churn, eliminates misleading delivery promises, and standardizes communication across support channels."
+    },
+    {
+      "id": "PROMPT-02",
+      "scenario": "Customer Support",
+      "objective": "De-escalate angry customer complaining about damaged goods.",
+      "baseline_prompt": "Apologize for the damaged order.",
+      "technique": "Chain-of-Thought (CoT) + Safety Guardrails",
+      "improved_prompt": "You are SwiftLog's Customer Resolution Advocate. A customer received damaged items from Order #{order_id}.\n\nStep-by-step reasoning:\n1. Validate customer frustration without accepting premature legal liability.\n2. Verify the return eligibility under SwiftLog's 14-day replacement policy.\n3. Formulate immediate resolution steps: courier pickup dispatch, zero-cost replacement or instant wallet refund.\n\nGenerate a professional, de-escalating response assuring resolution within 24 hours.",
+      "evaluation": "Maintains corporate compliance, protects brand reputation, and guarantees 24-hour turnaround commitments."
+    },
+    {
+      "id": "PROMPT-03",
+      "scenario": "Delivery Tracking",
+      "objective": "Explain shipment delay root causes based on inter-city routing bottlenecks.",
+      "baseline_prompt": "Why is the shipment late?",
+      "technique": "Data Grounding + Role Prompting",
+      "improved_prompt": "You are SwiftLog's Logistics Operations Dispatcher. Analyze Shipment #{shipment_id} routed from Warehouse {warehouse_id} ({origin_city}) to {destination_city}.\n\nOperational telemetry indicates a delay of {delay_days} days.\nContext: Ibadan destination has no dedicated fulfillment warehouse and relies on Lagos corridor transit.\n\nExplain the exact logistical bottlenecks causing this delay and summarize dispatch mitigation actions.",
+      "evaluation": "Transforms opaque delay logs into actionable operational insights for customer dispatch teams."
+    },
+    {
+      "id": "PROMPT-04",
+      "scenario": "Delivery Tracking",
+      "objective": "Generate automated SMS/WhatsApp transit milestone notifications.",
+      "baseline_prompt": "Send a tracking update to the customer.",
+      "technique": "Structured Tokenized Output (160 chars max)",
+      "improved_prompt": "You are SwiftLog's Automated Notification Engine. Generate a concise SMS update (< 160 characters) for Order #{order_id}.\nStatus: {status}, Origin: {warehouse_id}, Destination: {city}, ETA: {eta}.\nFormat: 'SwiftLog Update: Order [ID] is [Status]. Dispatched from [Hub] to [City]. Expected [ETA]. Track: [URL]'",
+      "evaluation": "Measures 100% adherence to telecom carrier character limits and maximizes click-through tracking rates."
+    },
+    {
+      "id": "PROMPT-05",
+      "scenario": "Inventory Management",
+      "objective": "Identify critically low stock SKUs and recommend reorder quantities.",
+      "baseline_prompt": "Which products need restocking?",
+      "technique": "Few-Shot + Analytical Formula Grounding",
+      "improved_prompt": "You are SwiftLog's Inventory Control Manager. Review warehouse inventory records:\n- Warehouse: {warehouse_id}\n- Product: {product_id} ({category})\n- Current Stock: {stock_units} (Safety threshold: 50 units)\n- 30-Day Sales Velocity: {monthly_sales}\n\nTask: Compute Economic Reorder Quantity (EOQ) buffer and output recommended replenishment batch size with priority score (High/Medium/Low).",
+      "evaluation": "Prevents stockouts on high-velocity items and reduces inventory holding costs."
+    },
+    {
+      "id": "PROMPT-06",
+      "scenario": "Inventory Management",
+      "objective": "Formulate inter-warehouse stock rebalancing strategy.",
+      "baseline_prompt": "Move inventory between warehouses.",
+      "technique": "Multi-Step Optimization Prompting",
+      "improved_prompt": "You are SwiftLog's Supply Chain Network Architect. Warehouse W12 (Abuja) has 77,517 units (overcapacity), while Warehouse W01 has 56,539 units with 35 SKUs below safety stock.\n\nFormulate a lateral transshipment plan specifying SKUs, freight transit mode, and cost-benefit balance.",
+      "evaluation": "Optimizes network capacity without unnecessary procurement spend."
+    },
+    {
+      "id": "PROMPT-07",
+      "scenario": "Supplier Management",
+      "objective": "Draft quarterly supplier performance scorecards and improvement directives.",
+      "baseline_prompt": "Write a review for this supplier.",
+      "technique": "Executive Tone + Data Table Grounding",
+      "improved_prompt": "You are SwiftLog's Chief Procurement Officer. Draft an official performance review for Supplier {supplier_name} ({supplier_id}).\n\nMetrics:\n- Total Orders Fulfilled: {total_orders}\n- Delay Rate: {delay_rate}%\n- Defective/Damaged Return Rate: {return_rate}%\n- Reliability Score: {reliability_score}/100\n\nDraft a formal memo commending strengths or mandating a 30-day Corrective Action Plan (CAP) if Reliability < 85.",
+      "evaluation": "Enforces SLA adherence and establishes enforceable vendor accountability standards."
+    },
+    {
+      "id": "PROMPT-08",
+      "scenario": "Supplier Management",
+      "objective": "Automate contract renegotiation brief for chronic underperformers.",
+      "baseline_prompt": "Tell the supplier to fix their delays or we cancel.",
+      "technique": "Strategic Commercial Negotiation Prompting",
+      "improved_prompt": "You are SwiftLog's Strategic Sourcing Director. Draft a contract renegotiation brief citing persistent delivery delays (Delay Rate > 60%). Reference specific SLA breach clauses and propose volume allocation penalties unless on-time rates reach 80% within 45 days.",
+      "evaluation": "Equips procurement executives with rigorous contractual leverage backed by hard operational data."
+    },
+    {
+      "id": "PROMPT-09",
+      "scenario": "Executive Reporting",
+      "objective": "Synthesize daily executive logistics brief with critical KPI highlights.",
+      "baseline_prompt": "Give me an executive report of today's logistics.",
+      "technique": "Executive Briefing + Bulleted Metrics + Strategic Takeaways",
+      "improved_prompt": "You are SwiftLog's Chief Operations Officer Chief of Staff. Synthesize an Executive Logistics Brief for the CEO.\n\nEnterprise KPIs:\n- Total Revenue: $21.67M (Fashion: $8.06M, Food: $7.11M, Electronics: $6.50M)\n- Total Orders: 5,000 (Delivered: 1,658, Pending: 1,716, Cancelled: 1,626)\n- On-Time Delivery Rate: 36.28% (Delayed: 63.72%, Mean Delay: 3.57 Days)\n- Return Rate: 10.00% (500 returns; 37% Late Delivery, 33% Wrong Item, 30% Damaged)\n- Warehouse Inventory: 1,007,764 units across 15 hubs; 380 low-stock SKU records\n\nStructure into: 1. Executive Headline, 2. Key Operational Inefficiencies, 3. Immediate Action Items.",
+      "evaluation": "Provides C-suite decision-makers with high-signal, zero-fluff intelligence in under 2 minutes of reading time."
+    },
+    {
+      "id": "PROMPT-10",
+      "scenario": "Executive Reporting",
+      "objective": "Generate regional expansion feasibility summary for Ibadan.",
+      "baseline_prompt": "Should we open a warehouse in Ibadan?",
+      "technique": "Cost-Benefit Analytical Prompting",
+      "improved_prompt": "You are SwiftLog's Chief Strategy Officer. Customer distribution reveals Ibadan represents 26.2% of total customers (262 accounts), yet SwiftLog operates 0 fulfillment hubs in Ibadan, forcing long-distance transit from Lagos.\n\nDraft a 3-paragraph executive investment memo evaluating capital expenditure vs logistics cost savings and delivery time reduction.",
+      "evaluation": "Validates business expansion cases with quantitative customer demand evidence."
+    },
+    {
+      "id": "PROMPT-11",
+      "scenario": "Product Recommendations",
+      "objective": "Generate personalized cross-selling bundles based on customer purchase history.",
+      "baseline_prompt": "Recommend products to this customer.",
+      "technique": "Collaborative Basket Context + Role Prompting",
+      "improved_prompt": "You are SwiftLog's AI Merchandising Specialist. Customer {customer_id} in {city} frequently purchases {primary_category}.\nTheir average order value is ${aov:.2f}.\n\nRecommend a curated 3-product bundle from complementary categories that maximizes cart value while maintaining high fulfillment feasibility.",
+      "evaluation": "Drives average order value (AOV) expansion and cross-category penetration."
+    },
+    {
+      "id": "PROMPT-12",
+      "scenario": "Product Recommendations",
+      "objective": "Identify alternative replacement products for out-of-stock items.",
+      "baseline_prompt": "Suggest substitutes for this product.",
+      "technique": "Attribute-Matching Few-Shot Prompting",
+      "improved_prompt": "You are SwiftLog's Catalog Concierge. Product {product_id} in Category {category} (Unit Price: ${price:.2f}) is currently out of stock at Warehouse {warehouse_id}.\n\nIdentify the top 2 in-stock substitutes within a +/- 15% price band and explain why the substitute satisfies customer requirements.",
+      "evaluation": "Saves at-risk checkouts and reduces purchase abandonment due to warehouse stockouts."
+    },
+    {
+      "id": "PROMPT-13",
+      "scenario": "Return Handling",
+      "objective": "Categorize return root causes and suggest vendor quality corrective actions.",
+      "baseline_prompt": "Why was this order returned?",
+      "technique": "Structured Root-Cause Analysis (5 Whys)",
+      "improved_prompt": "You are SwiftLog's Quality Assurance & Reverse Logistics Lead. Order #{order_id} was returned citing reason: '{return_reason}'.\n\nApply the 5-Whys methodology to trace whether the root breakdown was dispatch delay, warehouse picking error, packaging fragility, or supplier manufacturing defects. Suggest immediate corrective measures.",
+      "evaluation": "Pins accountability to operational failure modes and decreases repeat returns."
+    },
+    {
+      "id": "PROMPT-14",
+      "scenario": "Return Handling",
+      "objective": "Automate customer return authorization (RMA) workflow guidelines.",
+      "baseline_prompt": "Give instructions for returning an item.",
+      "technique": "Customer Self-Service Protocol Prompting",
+      "improved_prompt": "You are SwiftLog's Reverse Logistics Coordinator. Formulate clear, step-by-step Return Merchandise Authorization (RMA) instructions for a customer in {city} returning Product {product_id}.\nInclude pickup window, packaging guidelines, and refund timeline (3-5 business days).",
+      "evaluation": "Eliminates customer confusion during return intake and streamlines reverse logistics tracking."
+    },
+    {
+      "id": "PROMPT-15",
+      "scenario": "Operational Troubleshooting",
+      "objective": "Diagnose dispatch bottlenecks in underperforming warehouse W05.",
+      "baseline_prompt": "Why does warehouse W05 have so many delays?",
+      "technique": "Operational Diagnostic Prompting",
+      "improved_prompt": "You are SwiftLog's Industrial Engineering Consultant. Warehouse W05 exhibits a 68.0% delay rate (highest across the network), with 14 staff handling 334 shipments.\n\nDiagnose root causes across staffing allocation, inventory layout, order picking density, and inter-city dispatch handoffs. Propose immediate remediation steps.",
+      "evaluation": "Provides warehouse superintendents with practical lean operational improvements."
+    },
+    {
+      "id": "PROMPT-16",
+      "scenario": "Operational Troubleshooting",
+      "objective": "Resolve peak-season courier vehicle allocation shortages.",
+      "baseline_prompt": "How do we handle delivery truck shortages in August?",
+      "technique": "Dynamic Resource Scheduling Prompting",
+      "improved_prompt": "You are SwiftLog's Fleet Logistics Director. August records peak delivery volume (654 orders). Formulate a 3-tier fleet contingency plan: 1. Core dedicated fleet optimization, 2. Spot-market 3PL partnerships, 3. Micro-fulfillment staging.",
+      "evaluation": "Prevents fleet paralysis and stabilizes service-level agreements during peak order cycles."
+    },
+    {
+      "id": "PROMPT-17",
+      "scenario": "Data Analysis",
+      "objective": "Interpret statistical ANOVA and Chi-Square hypothesis test results for business managers.",
+      "baseline_prompt": "Explain the stats results.",
+      "technique": "Plain-English Statistical Interpretation",
+      "improved_prompt": "You are SwiftLog's Lead Data Scientist. Translate technical hypothesis test results into plain English for the Managing Director:\n1. ANOVA on Delivery Delays across Regions: F-stat={f_stat}, p-value={p_val_anova}\n2. Chi-Square on Returns across Product Categories: Chi2={chi2_stat}, p-value={p_val_chi2}\n\nState whether the hypotheses were rejected, what the practical business meaning is, and what management should decide based on this evidence.",
+      "evaluation": "Bridges the gap between inferential statistics and executive decision-making."
+    },
+    {
+      "id": "PROMPT-18",
+      "scenario": "Data Analysis",
+      "objective": "Analyze RFM customer segmentation distributions and revenue concentration.",
+      "baseline_prompt": "What do the customer segments tell us?",
+      "technique": "Pareto Analysis + Segment Strategy Prompting",
+      "improved_prompt": "You are SwiftLog's Business Intelligence Principal. Customer RFM segmentation reveals top 25% VIP customers account for over 45% of total company revenue ($21.67M total).\n\nAnalyze retention dynamics, churn risk indicators, and formulate specific marketing & operational SLAs for each customer tier.",
+      "evaluation": "Guarantees resource prioritization for top revenue-generating enterprise accounts."
+    },
+    {
+      "id": "PROMPT-19",
+      "scenario": "Business Strategy",
+      "objective": "Construct 12-month Supply Chain Digital Transformation Roadmap.",
+      "baseline_prompt": "Give a roadmap for AI in logistics.",
+      "technique": "Enterprise Architecture Phased Framework",
+      "improved_prompt": "You are SwiftLog's Chief Transformation Officer. Synthesize a 12-month phased roadmap for AI and predictive supply chain deployment across 3 horizons:\n- Horizon 1 (Months 1-3): Foundation & Real-time BI Visibility\n- Horizon 2 (Months 4-8): Predictive ML for Delay Mitigation & Demand Forecasting\n- Horizon 3 (Months 9-12): Autonomous Replenishment & GenAI Assistant Deployment.\nHighlight risks, budget impact, and expected ROI.",
+      "evaluation": "Provides board-level clarity and structured milestone governance."
+    },
+    {
+      "id": "PROMPT-20",
+      "scenario": "Business Strategy",
+      "objective": "Formulate Responsible AI governance, data privacy, and ethical guardrails.",
+      "baseline_prompt": "How do we make sure AI is safe in our company?",
+      "technique": "Responsible AI Governance Framework Prompting",
+      "improved_prompt": "You are SwiftLog's Chief Risk & Compliance Officer. Formulate SwiftLog's Enterprise Responsible AI Charter. Establish enforceable guardrails covering: 1. Zero-hallucination factual grounding on operational data, 2. Customer PII masking, 3. Algorithmic bias mitigation in customer routing and credit, 4. Human-in-the-loop review protocols for mission-critical dispatches.",
+      "evaluation": "Protects customer privacy, ensures ethical algorithmic decisions, and complies with national data protection regulations."
+    }
+  ]
+}

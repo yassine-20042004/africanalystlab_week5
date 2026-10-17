@@ -1,0 +1,7 @@
+Problem,Model,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+Delivery Delay (Classification),Logistic Regression,0.505,0.6365,0.5196,0.5722,0.5128
+Delivery Delay (Classification),Random Forest Classifier,0.636,0.6375,0.9937,0.7767,0.5244
+Delivery Delay (Classification),Gradient Boosting Classifier,0.627,0.6413,0.9403,0.7626,0.5183
+Product Return Risk (Classification),Return Logistic Regression,0.537,0.0893,0.4211,0.1473,0.4689
+Product Return Risk (Classification),Return Random Forest,0.833,0.0909,0.0842,0.0874,0.4791
+Product Return Risk (Classification),Return Gradient Boosting,0.903,0.0,0.0,0.0,0.4646

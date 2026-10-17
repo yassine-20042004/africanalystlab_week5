@@ -1,0 +1,4 @@
+Problem,Model,MAE ($),RMSE ($),R2-Score
+Order Revenue Demand (Regression),Ridge Regressor,821.41,1088.95,0.8779
+Order Revenue Demand (Regression),Random Forest Regressor,398.12,592.37,0.9639
+Order Revenue Demand (Regression),Gradient Boosting Regressor,403.7,583.04,0.965
